@@ -1,9 +1,9 @@
 (function () {
     'use strict';
     angular
-    .module('yandex-maps.plugin',
+    .module('universalEditor.YandexMaps',
     [
-        'yandex-maps.plugin.templates',
+        'universalEditor.YandexMaps.templates',
         'yaMap'
     ]).config(function() {
     });

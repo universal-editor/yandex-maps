@@ -1,8 +1,8 @@
 (function(module) {
 try {
-  module = angular.module('yandex-maps.plugin.templates');
+  module = angular.module('universalEditor.YandexMaps.templates');
 } catch (e) {
-  module = angular.module('yandex-maps.plugin.templates', []);
+  module = angular.module('universalEditor.YandexMaps.templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('module/directives/editorFieldYandexMaps/editorFieldYandexMaps.html',

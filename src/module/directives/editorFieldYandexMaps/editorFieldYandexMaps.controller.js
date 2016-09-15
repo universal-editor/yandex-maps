@@ -2,14 +2,13 @@
     'use strict';
 
     angular
-        .module('yandex-maps.plugin')
+        .module('universalEditor.YandexMaps')
         .controller('EditorFieldYandexMapsController',EditorFieldYandexMapsController);
 
     EditorFieldYandexMapsController.$inject = ['$scope','EditEntityStorage','ArrayFieldStorage'];
 
     function EditorFieldYandexMapsController($scope,EditEntityStorage,ArrayFieldStorage){
         /* jshint validthis: true */
-        console.log('contr');
         var vm = this;
         var fieldErrorName;
 

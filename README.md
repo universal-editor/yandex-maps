@@ -17,7 +17,7 @@ the following commands when you located in the root directory of the project:
 Connection module:
 
 ```javascript
-    angular.module ( 'unEditor', [ 'yandex-maps.plugin']);
+    angular.module ( 'unEditor', [ 'universalEditor.YandexMaps']);
 ```
 
 For correct operation of the extensions editor requires a set of additional libraries that extend the functionality of AngularJS.

@@ -6,7 +6,7 @@
      * @example <div editor-field-yandex-maps=""></div>
      */
     angular
-        .module('yandex-maps.plugin')
+        .module('universalEditor.YandexMaps')
         .directive('editorFieldYandexMaps',editorFieldYandexMaps);
 
     editorFieldYandexMaps.$inject = ['$templateCache'];
@@ -23,7 +23,6 @@
         };
 
         function link(scope, elem, attrs, ctrl){
-            console.log('dir');
             elem.on('$destroy', function () {
                 scope.$destroy();
             });

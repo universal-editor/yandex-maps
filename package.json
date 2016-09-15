@@ -1,5 +1,5 @@
 {
-  "name": "yandex-maps-plugin",
+  "name": "universal-editor.yandex-maps",
   "description": "Directive to \"Universal Editor\" editor which extends the possibility of adding a field **yandex-maps**.",
   "repository": {
     "type": "git",
