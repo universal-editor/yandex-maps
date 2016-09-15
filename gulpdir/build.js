@@ -17,7 +17,7 @@ gulp.task('jade', function () {
 gulp.task('html2js', function () {
     return gulp.src(['./src/**/*.html','!./src/index.html'])
         .pipe(plugins.ngHtml2js({
-            moduleName: "yandex-maps.plugin.templates"
+            moduleName: "universalEditor.YandexMaps.templates"
         }))
         .pipe(plugins.rename({
             suffix: '.tpl'
