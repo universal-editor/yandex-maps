@@ -1,0 +1,26 @@
+{
+  "name": "universal-editor.yandex-maps",
+  "main": [
+    "./dist/js/yandex-maps-plugin.min.js"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "editor"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.x",
+    "ya-map": "angular-yandex-map#~1.0.9"
+  },
+  "resolutions": {
+    "angular": "~1.5.7"
+  }
+}
