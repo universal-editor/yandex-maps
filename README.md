@@ -32,7 +32,5 @@ For building the project, which connects the extension, should use a gulp plugin
 
 ## Documentation
 
-Types of field
-
 * [English](docs/en/README.md)
 * [По-русски](docs/ru/README.md)
