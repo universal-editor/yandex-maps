@@ -8,7 +8,7 @@ This extension is pulled like a bower dependence. For connecting the extension r
 the following commands when you located in the root directory of the project:
 
 
-* Bower install https://github.com/universal-editor/yandex-maps-plugin --save -F
+* Bower install https://github.com/universal-editor/yandex-maps --save -F
 * Extension uses angular-yandex-map library
 * Required to make connecting javascript-file:
   * yandex-maps-plugin.min.js – the main extension file in editor.
@@ -17,7 +17,7 @@ the following commands when you located in the root directory of the project:
 Connection module:
 
 ```javascript
-    angular.module ( 'unEditor', [ 'universalEditor.YandexMaps']);
+    angular.module('myApp', ['universalEditor.YandexMaps']);
 ```
 
 For correct operation of the extensions editor requires a set of additional libraries that extend the functionality of AngularJS.
