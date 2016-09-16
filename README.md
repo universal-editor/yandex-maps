@@ -34,4 +34,5 @@ For building the project, which connects the extension, should use a gulp plugin
 
 Types of field
 
-* [yandex-maps](docs/en/README.md)
+* [English](docs/en/README.md)
+* [По-русски](docs/ru/README.md)
