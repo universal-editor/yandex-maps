@@ -1,0 +1,56 @@
+div(ng-class="{'field-wrapper row':!vm.options.filter, 'filter-wrapper-field': vm.options.filter}")
+    //-- with templates
+    .component-template(
+        on-render-template,
+        ng-class="{'component-filter': vm.templates.filter && vm.regim === 'filter',\
+            'component-edit': vm.templates.edit  && vm.regim === 'edit',\
+            'component-preview': vm.templates.preview && vm.regim === 'preview'}")
+    //-- without templates
+    //-- filter or edit default template
+    .component-edit(
+        ng-if="(!vm.templates.edit && vm.regim === 'edit') || (!vm.templates.filter && vm.regim === 'filter')",
+        ng-class="{'component-filter': vm.regim === 'filter'}"
+        )
+        label.field-name-label(ng-if="!vm.options.filter && !!vm.label")
+            .field-hint(data-ng-if="!!vm.hint")
+                .hint-text(ng-bind="::vm.hint")
+            span(data-ng-class="{'editor-required': vm.required}" ng-bind="::vm.label")
+        .filter-inner-wrapper(ng-if="vm.options.filter")
+            input.form-control.input-sm(
+                type="text",
+                name="{{vm.fieldName}}",
+                data-ng-model="vm.fieldValue"
+                )
+        div(ng-if="!vm.disabled && !vm.options.filter")   
+            .field-map-wrapper(data-ng-class="vm.classComponent")
+                ya-map(
+                data-ya-center="{{vm.mapParam.center}}",
+                data-ya-zoom="{{vm.mapParam.zoom}}",
+                data-ya-after-init="vm.afterInit($target)",
+                data-ya-event-dblclick="vm.mapDoubleClick($event)",
+                data-ya-controls="zoomControl searchControl fullscreenControl",
+                data-ya-behaviors="scrollZoom multiTouch drag"
+                style="width: {{vm.mapParam.width}}px; height: {{vm.mapParam.height}}px; display: block;")
+                    ya-geo-object(
+                    data-ng-if="!vm.multiple && vm.fieldValue",
+                    data-ya-source="{geometry:{type : 'Point', coordinates : vm.fieldValue}}")
+                    ya-geo-object(
+                    data-ng-if="vm.multiple",
+                    data-ng-repeat="mark in vm.fieldValue track by $index"
+                    data-ya-source="{geometry:{type : 'Point', coordinates : mark}, properties : { iconContent : $index + 1 }}")
+                .field-map-values
+                    .item-map-wrapper(data-ng-if="vm.multiple", data-ng-repeat="item in vm.fieldValue track by $index")
+                        .btn.btn-primary.delete-point.btn-xs(data-ng-click="vm.removeItem($index)", data-ng-if="!vm.readonly && vm.fieldValue.length") {{'BUTTON.DELETE_MARK' | translate}} {{$index + 1}}
+                    .item-map-wrapper(data-ng-if="!vm.multiple")
+                        .btn.btn-primary.delete-point.btn-xs(data-ng-click="vm.removeItem()", data-ng-if="!vm.readonly && vm.fieldValue") {{'BUTTON.DELETE_MARK' | translate}}             
+        .disabled-field(ng-if="vm.disabled && !vm.options.filter")
+            span(ng-bind="vm.previewValue.toString()", data-ng-show="!vm.loadingData", ng-if = "!vm.multiple")
+            div(ng-repeat="value in vm.previewValue track by $index", data-ng-show="!vm.loadingData", ng-if = "vm.multiple")
+                span(ng-bind="value.toString()")
+    //-- preview default template
+    .component-preview(ng-if="!vm.templates.preview && vm.regim === 'preview'")
+        span(ng-bind="vm.previewValue.toString()", ng-if = "!vm.multiple")
+        div(ng-repeat="value in vm.previewValue track by $index", ng-if = "vm.multiple")
+            span(ng-bind="value.toString()")
+    .field-error-wrapper(ng-if="!vm.options.filter")
+        .error-item.alert.alert-danger(data-ng-repeat="err in vm.error track by $index") {{err}}

@@ -61,101 +61,9 @@
 
         EditEntityStorage.addFieldController(this);
 
-        this.getFieldValue = function () {
+       
 
-            var field = {};
-            var concatedValue;
-            var wrappedFieldValue;
 
-            if(vm.multiple){
-                if(vm.fieldValue.length > 0){
-                    concatedValue = [];
-                    angular.forEach(vm.fieldValue, function (valueItem) {
-                        concatedValue.push(valueItem.join(","));
-                    });
-                } else {
-                    concatedValue = "";
-                }
-            } else {
-                if(vm.fieldValue){
-                    concatedValue = vm.fieldValue.join(",");
-                } else {
-                    concatedValue = "";
-                }
-            }
-
-            if(vm.multiple && vm.multiname){
-                wrappedFieldValue = [];
-                angular.forEach(concatedValue, function (valueItem) {
-                    var tempItem = {};
-                    tempItem[vm.multiname] = valueItem;
-                    wrappedFieldValue.push(tempItem);
-                });
-            } else {
-                wrappedFieldValue = concatedValue;
-            }
-
-            if($scope.parentField){
-                if(vm.parentFieldIndex){
-                    field[$scope.parentField] = [];
-                    field[$scope.parentField][vm.parentFieldIndex] = {};
-                    field[$scope.parentField][vm.parentFieldIndex][vm.fieldName] = wrappedFieldValue;
-                } else {
-                    field[$scope.parentField] = {};
-                    field[$scope.parentField][vm.fieldName] = wrappedFieldValue;
-                }
-
-            } else {
-                field[vm.fieldName] = wrappedFieldValue;
-            }
-
-            return field;
-        };
-
-        this.getInitialValue = function () {
-
-            var field = {};
-
-            if($scope.parentField){
-                if(vm.multiple){
-                    field[$scope.parentField] = {};
-                    field[$scope.parentField][vm.fieldName] = [];
-                } else {
-                    field[$scope.parentField] = {};
-                    field[$scope.parentField][vm.fieldName] = "";
-                }
-            } else {
-                if(vm.multiple){
-                    field[vm.fieldName] = [];
-                } else {
-                    field[vm.fieldName] = "";
-                }
-            }
-
-            return field;
-        };
-
-        vm.addItem = function () {
-
-        };
-
-        vm.removeItem = function (index) {
-            index = typeof index !== "undefined" ? index : -1;
-
-            if(index >= 0){
-                angular.forEach(vm.fieldValue, function (value,key) {
-                    if (key == index){
-                        vm.fieldValue.splice(index,1);
-                    }
-                });
-            } else {
-                vm.fieldValue = '';
-            }
-
-            /*
-
-            */
-        };
 
         vm.afterInit = function (map) {
             vm.map = map;
@@ -173,14 +81,6 @@
         };
 
         $scope.$on('editor:entity_loaded', function (event, data) {
-            if( data.editorEntityType === "new" || data[$scope.field.name] === null ){
-                if(!!$scope.field.defaultValue){
-                    vm.fieldValue = vm.multiple ? [$scope.field.defaultValue.split(',')] : $scope.field.defaultValue.split(',');
-                }else{
-                    vm.fieldValue = vm.multiple ? [] : '';
-                }
-                return;
-            }
             if(!$scope.parentField){
                 if(!vm.multiple){
                     vm.fieldValue = data[$scope.field.name] ? data[$scope.field.name].split(',') : '';
@@ -211,17 +111,6 @@
                     });
                 }
             }
-            $scope.$evalAsync(function () {
-                if (!vm.multiple) {
-                    if (!!vm.fieldValue) {
-                        vm.mapParam.center = vm.fieldValue;
-                    }
-                } else {
-                    if (vm.fieldValue.length > 0) {
-                        vm.mapParam.center = vm.fieldValue[0];
-                    }
-                }
-            });
         });
 
         /*
