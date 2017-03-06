@@ -19,8 +19,8 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Одиночный режим (центр Волгоград)',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Single mode (Volgograd centered)',
+                                    hint: 'Component for work with maps',
                                     required: false,
                                     readonly: false,
                                     multiple: false,
@@ -36,8 +36,8 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Множественный режим (multiname)',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Multiple mode (multiname)',
+                                    hint: 'Component for work with maps',
                                     required: false,
                                     readonly: false,
                                     multiname: 'new_value',
@@ -53,8 +53,8 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Множественный режим',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Multiple mode',
+                                    hint: 'Component for work with maps',
                                     required: false,
                                     readonly: false,
                                     multiple: true,
@@ -68,8 +68,7 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Одиночный режим (Только для чтения)',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Single mode (readonly)',
                                     required: true,
                                     readonly: true,
                                     multiple: false,
@@ -84,8 +83,7 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Множественный режим (Только для чтения)',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Multiple mode (readonly)',
                                     required: true,
                                     readonly: true,
                                     multiple: true,
@@ -99,8 +97,7 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Множественный режим (Disabled)',
-                                    hint: 'Компонент по работе с картой',
+                                    label: 'ue-yandex-maps Multiple mode (Disabled)',
                                     required: true,
                                     disabled: true,
                                     multiple: true,
