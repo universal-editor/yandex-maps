@@ -20,7 +20,7 @@
             vm.map = undefined;
             vm.mapParam = {
                 height: componentSettings.mapHeight || "400",
-                width: componentSettings.mapWidth || "auto",
+                width: componentSettings.mapWidth || "650",
                 center: componentSettings.mapCenter || [37.620393, 55.765575],
                 zoom: componentSettings.mapZoom || 5
             };

@@ -19,17 +19,15 @@
                             component: {
                                 name: 'ue-yandex-maps',
                                 settings: {
-                                    label: 'ue-yandex-maps Одиночный режим',
+                                    label: 'ue-yandex-maps Одиночный режим (центр Волгоград)',
                                     hint: 'Компонент по работе с картой',
                                     required: false,
                                     readonly: false,
                                     multiple: false,
                                     width: 8,
-                                    mapHeight: 400,
-                                    mapWidth: 400,
-                                    mapCenter: [37.620393, 55.765575],
-                                    mapZoom: 5,
-                                     defaultValue: [37.617313,55.756039]
+                                    mapWidth: 550,
+                                    mapCenter: [44.5018300, 48.7193900],
+                                    mapZoom: 5
                                 }
                             }
                         },
@@ -45,9 +43,6 @@
                                     multiname: 'new_value',
                                     multiple: true,
                                     width: 8,
-                                    mapHeight: 400,
-                                    mapWidth: 400,
-                                    mapCenter: [37.620393, 55.765575],
                                     mapZoom: 5,
                                     defaultValue: [[37.617313,55.756039], [40.617313,55.756039]]
                                 }
@@ -64,11 +59,7 @@
                                     readonly: false,
                                     multiple: true,
                                     width: 8,
-                                    mapHeight: 400,
-                                    mapWidth: 400,
-                                    mapCenter: [37.620393, 55.765575],
-                                    mapZoom: 5,
-                                    defaultValue: [[37.617313,55.756039], [40.617313,55.756039]]
+                                    mapZoom: 5
                                 }
                             }
                         }, 
@@ -83,9 +74,6 @@
                                     readonly: true,
                                     multiple: false,
                                     width: 8,
-                                    mapHeight: 400,
-                                    mapWidth: 400,
-                                    mapCenter: [37.620393, 55.765575],
                                     mapZoom: 5,
                                     defaultValue: [37.617313,55.756039]
                                 }
@@ -102,7 +90,6 @@
                                     readonly: true,
                                     multiple: true,
                                     width: 12,
-                                    mapCenter: [37.620393, 55.765575],
                                     mapZoom: 5,
                                     defaultValue: [[37.617313,55.756039], [40.617313,55.756039]]
                                 }
@@ -118,7 +105,6 @@
                                     disabled: true,
                                     multiple: true,
                                     width: 12,
-                                    mapCenter: [37.620393, 55.765575],
                                     mapZoom: 5,
                                     defaultValue: [[37.617313,55.756039], [40.617313,55.756039]]
                                 }

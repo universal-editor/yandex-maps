@@ -1,7 +1,7 @@
 {
-  "name": "universal-editor.yandex-maps",
+  "name": "ue-yandex-maps",
   "main": [
-    "./dist/js/yandex-maps-plugin.min.js"
+    "./dist/ue-yandex-maps.min.js"
   ],
   "license": "MIT",
   "keywords": [
