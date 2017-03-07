@@ -1,5 +1,5 @@
 {
-  "name": "yandex-maps",
+  "name": "ue-yandex-maps",
   "description": "Angular module with component of yandex-maps for universal editor.",
   "version": "1.0.0-alpha",
   "scripts": {
