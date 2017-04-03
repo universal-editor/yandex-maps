@@ -39,7 +39,7 @@
     "bootstrap": "~3.1.1",
     "angular-bootstrap": "^2.1.4",
     "ya-map": "angular-yandex-map#~1.0.9",
-    "universal-editor": "^1.0.0-alpha4"
+    "universal-editor": "cd6439384717ee10b89c4ab605c639d8a22b280e"
   },
   "resolutions": {    
     "angular": "~1.6.1",

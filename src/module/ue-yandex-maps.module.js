@@ -2,7 +2,7 @@
     'use strict';
     require('../index.scss');
     if (IS_DEV) {
-        require('../bootstrap-inject.scss');
+        require('../bootstrap_inject.scss');
     }
     require('./templates.module.js');
     angular

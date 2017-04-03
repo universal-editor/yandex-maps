@@ -5,31 +5,31 @@
         deasync = require('deasync'),
         gutil = require('gulp-util'),
         path = require('path'),
-        HtmlWebpackPlugin = require('html-webpack-plugin'),
-        copyWebpackPlugin = require('copy-webpack-plugin'),
         cleanWebpackPlugin = require('clean-webpack-plugin'),
         ngAnnotatePlugin = require('ng-annotate-webpack-plugin'),
-        WebpackNotifierPlugin = require('webpack-notifier');
+        WebpackNotifierPlugin = require('webpack-notifier'),
+        InjectHtmlPlugin = require('inject-html-webpack-plugin');
 
-    var localHost = 'ue-yandex-maps.dev',
-        domain = localHost,
+    var isTrySetHost = false,
         defaultlocalHost = '127.0.0.1',
         NODE_ENV = ~process.argv.indexOf('-p') ? 'production' : 'development',
         RUNNING_SERVER = /webpack-dev-server.js$/.test(process.argv[1]),
         isProd = NODE_ENV == 'production',
         isDev = NODE_ENV == 'development',
-        publicPath = path.resolve(__dirname, isProd ? 'dist' : 'app'),
-        freePort = null;
-
+        mainCatalog = isProd ? 'dist' : 'app',
+        publicPath = path.resolve(__dirname, mainCatalog),
+        freePort = null,
+        fileBuildName = 'ue-yandex-maps',
+        localHost = fileBuildName + '.dev',
+        domain = localHost,
+        outputFile = isProd ? '[name].min.js' : '[name].js';
 
     require('portscanner').findAPortNotInUse(8080, 8100, defaultlocalHost, (error, port) => freePort = error ? 5555 : port);
     deasync.loopWhile(function() { return !freePort; });
 
-
     if (RUNNING_SERVER) {
         try {
-            var hostile = require('hostile');
-            hostile.set(defaultlocalHost, domain, function(err) {
+            require('hostile').set(defaultlocalHost, domain, function(err) {
                 if (err) {
                     gutil.log(gutil.colors.red('Can\'t set hosts file change. Please, try run this as Administrator.'), err.toString());
                     localHost = 'localhost';
@@ -37,16 +37,22 @@
                     gutil.log(gutil.colors.green('Set \'/etc/hosts\' successfully!'));
                     localHost = domain;
                 }
+                isTrySetHost = true;
             });
-        } catch (e) { localHost = 'localhost'; }
-        deasync.loopWhile(function() { return !localHost; });
+        } catch (e) {
+            gutil.log(gutil.colors.yellow(e));
+            isTrySetHost = true;
+            localHost = 'localhost';
+        }
+        deasync.loopWhile(function() { return !isTrySetHost; });
     }
 
     //** TEMPLATE CONFIGURATION */
     var webpackConfigTemplate = {
         context: __dirname,
+        entry: {},
         output: {
-            filename: isProd ? '[name].min.js' : '[name].js',
+            filename: outputFile,
             path: publicPath
         },
         resolve: {
@@ -77,7 +83,11 @@
                     loader: 'babel-loader',
                     include: [
                         path.resolve(__dirname, 'src')
-                    ]
+                    ],
+                    query: {
+                        plugins: ['transform-runtime'],
+                        presets: ['es2015']
+                    }
                 },
                 {
                     test: /\.scss$/,
@@ -115,12 +125,11 @@
         },
         plugins: [
             new webpack.DefinePlugin({
+                'IS_DEV': isDev,
                 'NODE_ENV': JSON.stringify(NODE_ENV),
-                'RUNNING_SERVER': RUNNING_SERVER,
-                'IS_DEV': isDev
+                'RUNNING_SERVER': RUNNING_SERVER
             }),
             new webpack.HotModuleReplacementPlugin(),
-            new cleanWebpackPlugin([publicPath], { verbose: true }),
             new ngAnnotatePlugin({
                 add: true
             }),
@@ -131,6 +140,7 @@
     if (RUNNING_SERVER) {
         //-- SETTING FOR LOCAL SERVER
         webpackConfigTemplate.devServer = {
+            contentBase: ['./demo', './bower_components', './' + mainCatalog],
             host: localHost,
             hot: true,
             port: freePort,
@@ -151,21 +161,32 @@
         );
     }
 
-    webpackConfigTemplate.entry = {
-        'ue-yandex-maps': ['webpack-dev-server/client?http://' + localHost + ':' + freePort + '/', 'webpack/hot/dev-server', path.resolve(__dirname, 'src/module/ue-yandex-maps.module.js')]
-    };
+    if (!RUNNING_SERVER || !isProd) {
+        webpackConfigTemplate.entry[fileBuildName] = [path.resolve(__dirname, 'src/module/ue-yandex-maps.module.js')];
+        webpackConfigTemplate.entry['../demo/bootstrapStyle'] = [path.resolve(__dirname, 'src/bootstrap_inject.js')];
+    }
 
-    webpackConfigTemplate.plugins.push(
-        new copyWebpackPlugin([{
-            from: 'src/demoApp'
-        }]),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            title: 'Example Components Universal Editor',
-            template: path.resolve(__dirname, 'src/index.ejs'),
-            inject: 'head'
-        })
-    );
+    var chunks = [fileBuildName];
+    if(isProd) {
+        chunks.push('../demo/bootstrapStyle');
+    }
 
+    if (!RUNNING_SERVER || (RUNNING_SERVER && !isProd)) {
+        webpackConfigTemplate.plugins.push(new InjectHtmlPlugin({
+            filename: path.resolve(__dirname, 'demo/index.html'),
+            startInjectJS: '<!-- start:bundle -->',
+            endInjectJS: '<!-- end:bundle -->',
+            processor: function(file) {
+                return file.replace('../demo/', '');
+            },
+            chunks:chunks
+        }));
+        webpackConfigTemplate.plugins.push(new cleanWebpackPlugin([publicPath], { verbose: true }));
+    }
+
+    if (RUNNING_SERVER && webpackConfigTemplate.entry.ue) {
+        webpackConfigTemplate.entry.ue.unshift('webpack-dev-server/client?http://' + localHost + ':' + freePort + '/');
+        webpackConfigTemplate.entry.ue.unshift('webpack/hot/dev-server');
+    }
     module.exports = [webpackConfigTemplate];
 })(require);
