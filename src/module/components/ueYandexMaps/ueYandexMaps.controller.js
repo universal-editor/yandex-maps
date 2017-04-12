@@ -5,7 +5,7 @@
         .module('ue-yandex-maps')
         .controller('UeYandexMapsController', UeYandexMapsController);
 
-    function UeYandexMapsController($scope, $controller) {
+    function UeYandexMapsController($scope, $controller, $element) {
         /* jshint validthis: true */
         'ngInject';
         var vm = this,
@@ -14,7 +14,7 @@
 
         vm.$onInit = function() {
             componentSettings = vm.setting.component.settings;
-            baseController = $controller('FieldsController', { $scope: $scope });
+            baseController = $controller('FieldsController', { $scope: $scope, $element: $element });
             angular.extend(vm, baseController);
 
             vm.map = undefined;
