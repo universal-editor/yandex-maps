@@ -5,7 +5,7 @@
         .module('ue-yandex-maps')
         .controller('UeYandexMapsController', UeYandexMapsController);
 
-    function UeYandexMapsController($scope, $controller) {
+    function UeYandexMapsController($scope, $controller, $element) {
         /* jshint validthis: true */
         'ngInject';
         var vm = this,
@@ -14,7 +14,7 @@
 
         vm.$onInit = function() {
             componentSettings = vm.setting.component.settings;
-            baseController = $controller('FieldsController', { $scope: $scope });
+            baseController = $controller('FieldsController', { $scope: $scope, $element: $element });
             angular.extend(vm, baseController);
 
             vm.map = undefined;
@@ -30,8 +30,8 @@
             centeredMap();
 
             vm.removeItem = removeItem;
-            vm.listeners.push($scope.$on('editor:entity_loaded', function(e, data) {
-                if (!data.$parentComponentId || vm.isParentComponent(data.$parentComponentId) && !vm.options.filter) {
+            vm.listeners.push($scope.$on('ue:componentDataLoaded', function(e, data) {
+                if (vm.isParentComponent(data) && !vm.options.filter) {
                     $scope.onLoadDataHandler(e, data);
                     $scope.$evalAsync(centeredMap);
                     vm.equalPreviewValue();
@@ -120,7 +120,6 @@
                 return field;
             };
         };
-
 
         function removeItem(index) {
             if (vm.multiple) {
