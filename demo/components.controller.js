@@ -8,6 +8,10 @@
     function ComponentsController($timeout, $rootScope) {
         'ngInject';
         var vm = this;
+         $rootScope.$on('ue-yandex-maps: setAddress', function(event, value) {
+             console.dir(value);
+         });
+
         vm.ueConfig = {
             component: {
                 name: 'ue-group',
