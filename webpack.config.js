@@ -70,7 +70,7 @@
 
         /** Include this setting if you need source-map */
         // devtool: 'inline-source-map',
-        devtool: 'eval', // faster then previous type of source-map
+        // devtool: 'eval', // faster then previous type of source-map
 
         watch: isDev,
         watchOptions: {
