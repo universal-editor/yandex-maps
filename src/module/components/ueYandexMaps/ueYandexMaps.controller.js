@@ -121,10 +121,14 @@
                 }
             } else {
                 vm.fieldValue = '';
-                vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
+                clearSearchControl();
             }
         }
 
+        function clearSearchControl () {
+            vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
+        }
+        
         function getAddressByCoords(coords) {
             ymaps.geocode(coords, {kind: 'house'}).then((response) => {
                 var address = response.geoObjects && 
@@ -132,6 +136,10 @@
                     response.geoObjects.get(0).properties &&
                     response.geoObjects.get(0).properties.get('text') ? response.geoObjects.get(0).properties.get('text') : 'Неизвестный адрес';
                 $rootScope.$broadcast('ue-yandex-maps: setAddress', {coords: coords, address: address});
+                
+                if (vm.searchControl.getRequestString() === null ) {
+                    vm.searchControl.state.set('inputValue', address)
+                }
             });
         }
 
