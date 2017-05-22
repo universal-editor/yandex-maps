@@ -40,90 +40,91 @@
             }));
 
             vm.listeners.push($scope.$watch(function() { return vm.fieldValue; }, handlerChangeValue, true));
-        };
- 
-        vm.afterInit = function(map) {
-            vm.map = map;
-            if (vm.multiple && angular.isArray(vm.fieldValue) && vm.fieldValue.length > 1) {
-                map.container.fitToViewport();
-            }
-
-            vm.searchControl = map.controls.get('searchControl');
             
-            vm.searchControl.events.add('resultselect', function (result) {
-                var index = vm.searchControl.getSelectedIndex();
-                var obj = vm.searchControl.getResultsArray()[index];
-                var street = obj.properties.get('name');
-                vm.searchControlObjCoords = obj.geometry.getCoordinates();
-                !vm.multiple ? vm.fieldValue = null : null;
-                $timeout(function() {saveMarker(vm.searchControlObjCoords)}, 100);
-            }, this);
+            vm.afterInit = function(map) {
+                vm.map = map;
+                if (vm.multiple && angular.isArray(vm.fieldValue) && vm.fieldValue.length > 1) {
+                    map.container.fitToViewport();
+                }
+
+                vm.searchControl = map.controls.get('searchControl');
+                
+                vm.searchControl.events.add('resultselect', function (result) {
+                    var index = vm.searchControl.getSelectedIndex();
+                    var obj = vm.searchControl.getResultsArray()[index];
+                    var street = obj.properties.get('name');
+                    vm.searchControlObjCoords = obj.geometry.getCoordinates();
+                    !vm.multiple ? vm.fieldValue = null : null;
+                    $timeout(function() {saveMarker(vm.searchControlObjCoords)}, 100);
+                }, this);
+            };
+    
+            vm.objectCreated = function(geoObj) {
+                var coords = geoObj.geometry.getCoordinates()
+                getAddressByCoords(coords);
+            };
+
+            vm.getFieldValue = function() {
+                var field = {},
+                    wrappedFieldValue;
+
+                if (vm.multiple) {
+                    wrappedFieldValue = [];
+                    if (angular.isArray(vm.fieldValue)) {
+                        vm.fieldValue.forEach(function(value) {
+                            var multinameValue;
+                            var output = '';
+                            if (angular.isArray(value)) {
+                                output = value.join(",");
+                            }
+                            if (vm.multiname) {
+                                multinameValue = {};
+                                multinameValue[vm.multiname] = output;
+                            }
+                            wrappedFieldValue.push(multinameValue || output);
+                        });
+                    }
+                } else if (angular.isArray(vm.fieldValue)) {
+                    wrappedFieldValue = vm.fieldValue.join(",");
+                }
+
+                if (vm.parentField) {
+                    field[vm.parentField] = {};
+                    field[vm.parentField][vm.fieldName] = wrappedFieldValue;
+                } else {
+                    field[vm.fieldName] = wrappedFieldValue;
+                }
+
+                return field;
+            };
+
+            vm.mapDoubleClick = function(event) {
+                vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
+                var coords = event.get('coords');
+                saveMarker(coords);
+            };
+
+            vm.removeItem = function(index) {
+                if (vm.multiple) {
+                    if (angular.isArray(vm.fieldValue)) {
+                        if ( index == vm.fieldValue.length - 1) {
+                            vm.searchControl && vm.searchControl.clear() ? 
+                                vm.searchControl.clear() : 
+                                null;
+                        }
+                        vm.fieldValue.forEach(function(value, key) {
+                            if (key == index) {
+                                vm.fieldValue.splice(index, 1);
+                            }
+                        });
+                    }
+                } else {
+                    vm.fieldValue = '';
+                    clearSearchControl();
+                }
+            }
         };
  
-        vm.objectCreated = function(geoObj) {
-            var coords = geoObj.geometry.getCoordinates()
-            getAddressByCoords(coords);
-        };
-
-        vm.getFieldValue = function() {
-            var field = {},
-                wrappedFieldValue;
-
-            if (vm.multiple) {
-                wrappedFieldValue = [];
-                if (angular.isArray(vm.fieldValue)) {
-                    vm.fieldValue.forEach(function(value) {
-                        var multinameValue;
-                        var output = '';
-                        if (angular.isArray(value)) {
-                            output = value.join(",");
-                        }
-                        if (vm.multiname) {
-                            multinameValue = {};
-                            multinameValue[vm.multiname] = output;
-                        }
-                        wrappedFieldValue.push(multinameValue || output);
-                    });
-                }
-            } else if (angular.isArray(vm.fieldValue)) {
-                wrappedFieldValue = vm.fieldValue.join(",");
-            }
-
-            if (vm.parentField) {
-                field[vm.parentField] = {};
-                field[vm.parentField][vm.fieldName] = wrappedFieldValue;
-            } else {
-                field[vm.fieldName] = wrappedFieldValue;
-            }
-
-            return field;
-        };
-
-        vm.mapDoubleClick = function(event) {
-            vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
-            var coords = event.get('coords');
-            saveMarker(coords);
-        };
-
-        vm.removeItem = function(index) {
-            if (vm.multiple) {
-                if (angular.isArray(vm.fieldValue)) {
-                    if ( index == vm.fieldValue.length - 1) {
-                        vm.searchControl && vm.searchControl.clear() ? 
-                            vm.searchControl.clear() : 
-                            null;
-                    }
-                    vm.fieldValue.forEach(function(value, key) {
-                        if (key == index) {
-                            vm.fieldValue.splice(index, 1);
-                        }
-                    });
-                }
-            } else {
-                vm.fieldValue = '';
-                clearSearchControl();
-            }
-        }
 
         function clearSearchControl () {
             vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
