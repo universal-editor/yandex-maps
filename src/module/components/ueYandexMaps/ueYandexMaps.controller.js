@@ -13,6 +13,7 @@
             baseController;
         vm.searchControl = null;
         vm.searchControlObjCoords = null;
+        vm.zoom = null;
 
         vm.$onInit = function() {
             componentSettings = vm.setting.component.settings;
@@ -20,6 +21,7 @@
             angular.extend(vm, baseController);
 
             vm.map = undefined;
+            vm.zoom = componentSettings.mapZoom && componentSettings.mapZoom > 16 ? componentSettings.mapZoom : 16;
             vm.mapParam = {
                 height: componentSettings.mapHeight || "400",
                 width: componentSettings.mapWidth || "650",
@@ -62,6 +64,7 @@
             vm.objectCreated = function(geoObj) {
                 var coords = geoObj.geometry.getCoordinates()
                 getAddressByCoords(coords);
+                setZoom(coords);
             };
 
             vm.getFieldValue = function() {
@@ -125,6 +128,11 @@
             }
         };
  
+        
+        function setZoom(coords) {
+            vm.map.setZoom(vm.zoom);
+            vm.map.setCenter(coords);
+        }
 
         function clearSearchControl () {
             vm.searchControl && vm.searchControl.clear() ? vm.searchControl.clear() : null;
@@ -145,6 +153,7 @@
         }
 
         function saveMarker(coords) {
+            setZoom(coords);
             if (!vm.readonly) {
                 if (vm.multiple) {
                     vm.fieldValue.push(coords);
