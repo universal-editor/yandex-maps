@@ -39,7 +39,9 @@
     "bootstrap": "~3.1.1",
     "angular-bootstrap": "^2.1.4",
     "ya-map": "angular-yandex-map#~1.0.9",
-    "universal-editor": "^1.0.0-alpha5"
+    "universal-editor": "acffbe859f1792bd5533f01fbcda1aa6b4d50425",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "angular-drag-and-drop-lists": "^2.1.0"
   },
   "resolutions": {    
     "angular": "~1.6.1",
