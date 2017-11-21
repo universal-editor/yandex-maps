@@ -6,10 +6,9 @@
   ],
   "license": "MIT",
   "keywords": [
-    "editor"
+    "editor",
+    "ya-map"
   ],
-  "homepage": "",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
