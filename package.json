@@ -4,7 +4,6 @@
   "version": "1.0.0-alpha",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
-    "dist": "webpack-dev-server -p",
     "build": "webpack -p --progress --colors"
   },
   "license": "MIT",
