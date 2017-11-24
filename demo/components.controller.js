@@ -31,7 +31,7 @@
                                     width: 8,
                                     mapWidth: 550,
                                     mapCenter: [44.5018300, 48.7193900],
-                                    mapZoom: 5
+                                    mapZoom: 1
                                 }
                             }
                         },
