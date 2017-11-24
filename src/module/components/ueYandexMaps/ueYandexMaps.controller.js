@@ -136,7 +136,7 @@
                     response.geoObjects.get(0) && 
                     response.geoObjects.get(0).properties &&
                     response.geoObjects.get(0).properties.get('text') ? response.geoObjects.get(0).properties.get('text') : 'Неизвестный адрес';
-                $rootScope.$broadcast('ue-yandex-maps: setAddress', {coords: coords, address: address});
+                $rootScope.$broadcast('ue-yandex-maps:setAddress', {coords: coords, address: address});
                 
                 if (vm.searchControl.getRequestString() === null ) {
                     vm.searchControl.state.set('inputValue', address)
