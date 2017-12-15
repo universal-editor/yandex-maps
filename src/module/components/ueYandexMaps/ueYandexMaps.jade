@@ -24,20 +24,26 @@ div(ng-class="{'field-wrapper row':!vm.options.filter, 'filter-wrapper-field': v
         div(ng-if="!vm.disabled && !vm.options.filter")   
             .field-map-wrapper(data-ng-class="vm.classComponent")
                 ya-map(
+                data-ya-event-dblclick="vm.mapDoubleClick($event)",
                 data-ya-center="{{vm.mapParam.center}}",
                 data-ya-zoom="{{vm.mapParam.zoom}}",
                 data-ya-after-init="vm.afterInit($target)",
-                data-ya-event-dblclick="vm.mapDoubleClick($event)",
                 data-ya-controls="zoomControl searchControl fullscreenControl",
                 data-ya-behaviors="scrollZoom multiTouch drag"
                 style="width: {{vm.mapParam.width}}px; height: {{vm.mapParam.height}}px; display: block;")
                     ya-geo-object(
-                    data-ng-if="!vm.multiple && vm.fieldValue",
-                    data-ya-source="{geometry:{type : 'Point', coordinates : vm.fieldValue}}")
+                        data-ng-if="!vm.multiple && vm.fieldValue",
+                        data-ya-source="{geometry:{type : 'Point', coordinates : vm.fieldValue}}",
+                        data-ya-after-init="vm.objectCreated($target)",
+                        data-ya-options="{zIndex: 651}", 
+                    )
                     ya-geo-object(
-                    data-ng-if="vm.multiple",
-                    data-ng-repeat="mark in vm.fieldValue track by $index"
-                    data-ya-source="{geometry:{type : 'Point', coordinates : mark}, properties : { iconContent : $index + 1 }}")
+                        data-ng-if="vm.multiple",
+                        data-ng-repeat="mark in vm.fieldValue track by $index",
+                        data-ya-options="{zIndex: 651}", 
+                        data-ya-source="{geometry:{type : 'Point', coordinates : mark}, properties : { iconContent : $index + 1}}"
+                        data-ya-after-init="vm.objectCreated($target)",
+                    )
                 .field-map-values
                     .item-map-wrapper(data-ng-if="vm.multiple", data-ng-repeat="item in vm.fieldValue track by $index")
                         .btn.btn-primary.delete-point.btn-xs(data-ng-click="vm.removeItem($index)", data-ng-if="!vm.readonly && vm.fieldValue.length") {{'BUTTON.DELETE_MARK' | translate}} {{$index + 1}}
