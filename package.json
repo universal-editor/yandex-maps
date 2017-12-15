@@ -1,7 +1,7 @@
 {
   "name": "ue-yandex-maps",
   "description": "Angular module with component of yandex-maps for universal editor.",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-RC",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
     "build": "webpack -p --progress --colors"

@@ -1,5 +1,9 @@
 # Change log
 
+## 1.0.0-RC - 2017-12-15
+
+Added new event 'ue-yandex-maps:setAddress'.
+
 ## 1.0.0-alpha2 - 2017-04-18
 
 Renaming of loading data events.

@@ -1,6 +1,6 @@
 {
   "name": "ue-yandex-maps",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-RC",
   "main": [
     "./dist/ue-yandex-maps.min.js"
   ],
